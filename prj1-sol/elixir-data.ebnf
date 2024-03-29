@@ -1,0 +1,34 @@
+(* A sentence consists of zero or more data literals *)
+sentence = { data_literal } ;
+
+(* A data literal can be a list, tuple, map, or primitive literal *)
+data_literal = list_literal | tuple_literal | map_literal | primitive_literal ;
+
+(* Primitive literals include integers, atoms, and booleans *)
+primitive_literal = integer | atom | boolean ;
+
+(* List literals are zero or more data literals separated by commas, enclosed in square brackets *)
+list_literal = "[", { data_literal }, "]" ;
+
+(* Tuple literals are zero or more data literals separated by commas, enclosed in braces *)
+tuple_literal = "{", { data_literal }, "}" ;
+
+(* Map literals are zero or more key-pairs separated by commas, enclosed in a decorated brace and a regular brace *)
+map_literal = "%{", { key_pair }, "}" ;
+
+(* A key-pair is a data literal followed by "=>" followed by another data literal, or a key followed by a data literal *)
+key_pair = data_literal, "=>", data_literal | key, data_literal ;
+
+(* Integers are sequences of digits with optional underscores *)
+integer = digit, { digit | "_" } ;
+
+(* Atoms start with a colon followed by an alphabetic character or underscore, then any number of alphanumeric characters or underscores *)
+atom = ":", ( letter | "_" ), { alphanumeric | "_" } ;
+
+(* Keys are like atoms but with the colon at the end *)
+key = ( letter | "_" ), { alphanumeric | "_" }, ":" ;
+
+(* Booleans are either "true" or "false" *)
+boolean = "true" | "false" ;
+
+(* Auxiliary definitions for digits, letters, and alphanumerics not shown for brevity *)
